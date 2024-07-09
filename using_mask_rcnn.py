@@ -83,27 +83,7 @@ def init(data_path):
                             batch_size=opt.batchSize, shuffle=False, num_workers=opt.n_cpu)
     return dataloader
 
-def human_remove(image,mask,labels,file_name,save_path):
-    image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)    
-    image = cv2.cvtColor(image,cv2.COLOR_RGB2RGBA)
-    
-    image[:,:,3] = 255.0
-    channel = image.shape[2]
-    area = 0    
-    _,_,w,h = mask.shape
-    for n in range(mask.shape[0]):
-            if labels[n] == 1:                
-                mask[n] = np.where(mask[n] >0.5, 255,0)
-            else :
-                continue        
-    for n in range(mask.shape[0]):
-            if labels[n] == 1:
-                for c in range(channel):                
-                    image[:,:,c] = np.where(mask[n] == 255, 0, image[:,:,c])
-            else :
-                continue                
-    #image save
-    cv2.imwrite(save_path +'seg_' + file_name ,image)    
+
 def apply_mask(image,mask,labels,boxes,file_name,save_path):
     image = cv2.cvtColor(image,cv2.COLOR_BGR2RGB)    
     # image = cv2.cvtColor(image,cv2.COLOR_RGB2RGBA)
@@ -191,7 +171,7 @@ def mask_rcnn(file_list,dataloader,save_path):
         
         mask = mask.data.float().numpy()        
         
-        #human_remove(image,mask,labels,file_list[i],save_path)
+       
         apply_mask(image,mask,labels,boxes,file_list[i],save_path)
         
 
