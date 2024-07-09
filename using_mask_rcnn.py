@@ -191,7 +191,7 @@ def mask_rcnn(file_list,dataloader,save_path):
         
         mask = mask.data.float().numpy()        
         
-        human_remove(image,mask,labels,file_list[i],save_path)
+        #human_remove(image,mask,labels,file_list[i],save_path)
         apply_mask(image,mask,labels,boxes,file_list[i],save_path)
         
 
